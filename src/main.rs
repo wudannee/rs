@@ -1,4 +1,8 @@
-use std::collections::HashMap;
+use std::{
+    collections::HashMap,
+    io,
+    time::{self, UNIX_EPOCH},
+};
 
 fn greeting() {
     let mut name = "rust".to_string();
@@ -34,7 +38,39 @@ fn hashmap() {
         println!("{}: {}", k, v);
     }
 }
+
+/// Generates a random number between 1 and 100.
+///
+/// The seed is the number of milliseconds since the Unix epoch.
+fn foo_random_number() -> i32 {
+    let seed = time::SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis();
+    (seed % 100 + 1) as i32
+}
 fn main() {
     // greeting();
-    hashmap();
+    // hashmap();
+
+    let number = foo_random_number();
+    println!("expected number: {}", number);
+
+    loop {
+        println!("please guess a number: ");
+        let mut guess = String::new();
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("failed to read line");
+        let guess: i32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+        if guess == number {
+            println!("you win");
+            break;
+        } else {
+            println!("==> {guess} is not correct");
+        }
+    }
 }
