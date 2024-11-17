@@ -1,5 +1,6 @@
 use std::{
-    collections::HashMap,
+    cmp::Ordering,
+    collections::{self, HashMap},
     io,
     time::{self, UNIX_EPOCH},
 };
@@ -49,6 +50,20 @@ fn foo_random_number() -> i32 {
         .as_millis();
     (seed % 100 + 1) as i32
 }
+
+/// Reads a line of input from the user and returns it as a string.
+///
+/// # Panics
+///
+/// Panics if the user is unable to provide input.
+fn get_user_input() -> String {
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("failed to read line");
+    input
+}
+
 fn main() {
     // greeting();
     // hashmap();
@@ -56,21 +71,28 @@ fn main() {
     let number = foo_random_number();
     println!("expected number: {}", number);
 
+    // loop until the user guesses the correct number
     loop {
         println!("please guess a number: ");
-        let mut guess = String::new();
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("failed to read line");
-        let guess: i32 = match guess.trim().parse() {
+        let guess: i32 = match get_user_input().trim().parse() {
             Ok(num) => num,
-            Err(_) => continue,
+            Err(_) => continue, // if the parsing fails, read the input again
         };
-        if guess == number {
-            println!("you win");
-            break;
-        } else {
-            println!("==> {guess} is not correct");
+
+        // compare the guess with the secret number
+        match guess.cmp(&number) {
+            Ordering::Equal => {
+                println!("you got it: {guess}");
+                break; // exit the loop if the guess is correct
+            }
+            not_equal => {
+                println!("==> {guess} is not correct");
+                match not_equal {
+                    Ordering::Greater => println!("too big"),
+                    Ordering::Less => println!("too small"),
+                    _ => unreachable!("unreachable"),
+                }
+            }
         }
     }
 }
