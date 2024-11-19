@@ -35,6 +35,44 @@ fn main() {
     for p in foo {
         println!("name: {}, age: {}", p.name, p.age);
     }
+
+    for i in Counter::new() {
+        println!("{i}");
+    }
+
+    // zip two Counter iterators and multiply corresponding elements
+    // skip the first element in the second iterator
+    // filter out the odd numbers
+    // collect the results into a vector
+    let s: Vec<_> = Counter::new()
+        .zip(Counter::new().skip(1))
+        .map(|(a, b)| a * b)
+        .filter(|x| x % 2 == 0)
+        .collect();
+    println!("Result: {:?}", s);
+}
+
+struct Counter {
+    count: u32,
+}
+
+impl Counter {
+    fn new() -> Counter {
+        Counter { count: 0 }
+    }
+}
+
+impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.count < 5 {
+            self.count += 1;
+            Some(self.count)
+        } else {
+            None
+        }
+    }
 }
 
 /// Represents a person with a name and age
