@@ -54,3 +54,68 @@ pub mod foo1 {
         }
     }
 }
+
+pub mod word_counter {
+    use std::collections::HashMap;
+    use std::fs::File;
+    use std::io::prelude::BufRead;
+    use std::io::BufReader;
+    use std::{env, process};
+
+    #[derive(Debug)]
+    struct WordCounter(HashMap<String, u64>);
+
+    impl WordCounter {
+        fn new() -> WordCounter {
+            WordCounter(HashMap::new())
+        }
+
+        fn increment(&mut self, word: &str) {
+            let key = word.to_string();
+            let count = self.0.entry(key).or_insert(0);
+            *count += 1;
+        }
+
+        fn display(&self) {
+            let m = &self.0;
+
+            // Convert the HashMap to a Vec so we can sort it
+            let mut v: Vec<_> = m.iter().collect();
+            // Sort the Vec by the value in descending order, and then by the key in ascending order
+            v.sort_by(|a, b| b.1.cmp(a.1).then_with(|| a.0.cmp(b.0)));
+            for (key, value) in v.into_iter() {
+                println!("{}: {}", key, value);
+            }
+        }
+    }
+
+    pub fn count_words_in_file() {
+        let arguments: Vec<String> = env::args().collect();
+        let filename = arguments
+            .get(1)
+            .or_else(|| {
+                println!("Please provide a filename to count words in");
+                process::exit(1);
+            })
+            .unwrap();
+        println!("Processing file: {}", filename);
+        let file = File::open(filename).unwrap_or_else(|err| {
+            println!("Could not open file <{}>: {}", filename, err);
+            process::exit(1);
+        });
+        let reader = BufReader::new(file);
+        let mut word_counter = WordCounter::new();
+        for line in reader.lines() {
+            let line = line.expect("Could not read line");
+            let words = line.split(" ");
+            for word in words {
+                if word == "" {
+                    continue;
+                } else {
+                    word_counter.increment(word);
+                }
+            }
+        }
+        word_counter.display();
+    }
+}

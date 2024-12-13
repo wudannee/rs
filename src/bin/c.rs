@@ -1,31 +1,33 @@
-/// Demonstrates a loop with an inner loop and a named outer loop (`'outloop`)
-/// that can be broken out of with `break 'outloop;`.
-fn loop_break() {
-    let mut x = 20;
-    'outloop: loop {
-        if x <= 0 {
-            break;
-        }
-        println!("{} more runs to go", x);
-        x -= 1;
-        loop {
-            if x == 10 {
-                println!("x = 10, quit loop!");
-                break 'outloop;
-            } else {
+mod loop_mod {
+    /// Demonstrates a loop with an inner loop and a named outer loop (`'outloop`)
+    /// that can be broken out of with `break 'outloop;`.
+    pub fn loop_break() {
+        let mut x = 20;
+        'outloop: loop {
+            if x <= 0 {
                 break;
+            }
+            println!("{} more runs to go", x);
+            x -= 1;
+            loop {
+                if x == 10 {
+                    println!("x = 10, quit loop!");
+                    break 'outloop;
+                } else {
+                    break;
+                }
             }
         }
     }
-}
 
-/// Iterates over the range from 1 to 5 in reverse order, stepping by 2.
-///
-/// Prints each element of the resulting sequence.
-fn loop_range() {
-    let r = 1..=5;
-    for i in r.rev().step_by(2) {
-        println!("{}", i);
+    /// Iterates over the range from 1 to 5 in reverse order, stepping by 2.
+    ///
+    /// Prints each element of the resulting sequence.
+    pub fn loop_range() {
+        let r = 1..=5;
+        for i in r.rev().step_by(2) {
+            println!("{}", i);
+        }
     }
 }
 
@@ -68,8 +70,8 @@ mod unit_struct_mod {
 }
 
 fn main() {
-    loop_break();
-    loop_range();
+    loop_mod::loop_break();
+    loop_mod::loop_range();
 
     unit_struct_mod::demo_read_write_mode();
 }
