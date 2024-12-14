@@ -90,6 +90,7 @@ pub mod word_counter {
     }
 
     pub fn count_words_in_file() {
+        println!("==== Counting words in a file ====");
         let arguments: Vec<String> = env::args().collect();
         let filename = arguments
             .get(1)
