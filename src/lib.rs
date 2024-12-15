@@ -1,4 +1,5 @@
 pub mod guess;
+pub mod play;
 
 pub mod foo1 {
     use std::{collections::HashMap, io};
