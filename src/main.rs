@@ -3,6 +3,8 @@ use y::guess;
 use y::play;
 use y::word_counter;
 
+// crate refers to main.rs
+
 fn main() {
     // guess::do_guess();
     // foo1::greeting();
@@ -11,6 +13,13 @@ fn main() {
     play();
 }
 
+mod apple;
+use crate::apple::eating_apple;
 fn play() {
     play::hello();
+
+    // direct call
+    apple::eating_apple();
+    // re-export call
+    apple::eating();
 }
