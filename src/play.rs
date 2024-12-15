@@ -2,7 +2,12 @@ pub fn run() {
     use crate::avocado::Avocado;
     println!("==== hello play ====");
     let mut avocado = Avocado::new("avocado-1".to_string(), 10);
-    avocado.eat_avocado();
+    loop {
+       if let Err(err_msg) = avocado.eat_avocado() {
+           println!("{}", err_msg);
+           break;
+       }
+    }
 }
 
 mod food {
