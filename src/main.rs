@@ -14,12 +14,11 @@ fn main() {
 }
 
 mod apple;
-use crate::apple::eating_apple;
 fn play() {
-    play::hello();
-
     // direct call
     apple::eating_apple();
     // re-export call
     apple::eating();
+
+    play::run();
 }

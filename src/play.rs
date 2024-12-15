@@ -1,6 +1,8 @@
-pub fn hello() {
-    println!("{}", "hello play branch");
-    println!("{}", "2024/12/15");
+pub fn run() {
+    use crate::avocado::Avocado;
+    println!("==== hello play ====");
+    let mut avocado = Avocado::new("avocado-1".to_string(), 10);
+    avocado.eat_avocado();
 }
 
 mod food {
