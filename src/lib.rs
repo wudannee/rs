@@ -1,5 +1,16 @@
 pub mod guess;
 
+/// doc test for substract
+/// ```
+/// use y::substract;
+/// assert_eq!(substract(1, 1), 0);
+/// assert_eq!(substract(1, 20), -19);
+/// ```
+/// Substracts two numbers
+pub fn substract(a: i32, b: i32) -> i32 {
+    a - b
+}
+
 pub mod foo1 {
     use std::{collections::HashMap, io};
 
@@ -89,6 +100,7 @@ pub mod word_counter {
         }
     }
 
+    /// Counts the number of words in a file and displays the results
     pub fn count_words_in_file() {
         println!("==== Counting words in a file ====");
         let arguments: Vec<String> = env::args().collect();
