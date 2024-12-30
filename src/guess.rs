@@ -1,5 +1,7 @@
 use std::{
-    cmp::Ordering, io, time::{self, UNIX_EPOCH}
+    cmp::Ordering,
+    io,
+    time::{self, UNIX_EPOCH},
 };
 
 /// Generates a random number between 1 and 100.
@@ -52,6 +54,62 @@ pub fn do_guess() {
                     _ => unreachable!("unreachable"),
                 }
             }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Debug)]
+    struct Animal {
+        name: String,
+        kind: String,
+    }
+
+    impl PartialEq for Animal {
+        fn eq(&self, other: &Self) -> bool {
+            self.kind == other.kind
+        }
+    }
+
+    #[test]
+    fn test_animals_eq() {
+        let dog = Animal {
+            name: "dog".to_string(),
+            kind: "mammal".to_string(),
+        };
+        let cat = Animal {
+            name: "cat".to_string(),
+            kind: "mammal".to_string(),
+        };
+
+        let fish = Animal {
+            name: "fish".to_string(),
+            kind: "fish".to_string(),
+        };
+
+        let shark = Animal {
+            name: "shark".to_string(),
+            kind: "fish".to_string(),
+        };
+
+        assert_eq!(dog, cat);
+        assert_ne!(dog, fish);
+        assert_eq!(fish, shark);
+    }
+
+    #[test]
+    fn test_random_number_between_1_and_100() {
+        // dummy test
+        for _ in 0..500 {
+            let input = foo_random_number();
+            assert!(
+                input >= 1 && input <= 100,
+                "invalid number {}, input should be between 1 and 100",
+                input
+            );
         }
     }
 }
