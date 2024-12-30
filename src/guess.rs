@@ -61,6 +61,8 @@ pub fn do_guess() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::thread;
+    use time::Duration;
 
     #[derive(Debug)]
     struct Animal {
@@ -111,5 +113,16 @@ mod tests {
                 input
             );
         }
+    }
+
+    #[test]
+    #[ignore]
+    // ignore this test, because it's too expensive
+    // you can use `cargo test -- --ignored` to run it
+    fn test_expensive_function() {
+        for _ in 1..=3 {
+            thread::sleep(Duration::from_secs(1));
+        }
+        assert!(true);
     }
 }
