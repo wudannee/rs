@@ -132,3 +132,18 @@ pub mod word_counter {
         word_counter.display();
     }
 }
+
+pub mod foo2 {
+    /// dummy generic function which returns its input
+    fn echo<T>(x: T) -> T {
+        x
+    }
+
+    pub fn demo_generic() {
+        let a = echo("hello");
+        println!("a: {}", a);
+
+        let a = echo(1.23);
+        println!("a: {}", a);
+    }
+}
