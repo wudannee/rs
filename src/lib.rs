@@ -157,6 +157,53 @@ pub mod foo2 {
         }
     }
 
+    trait Vehicle {
+        fn drive(&self);
+    }
+
+    struct Benz {
+        name: String,
+    }
+
+    struct BMW {
+        name: String,
+    }
+
+    impl Vehicle for Benz {
+        fn drive(&self) {
+            println!("{} is driving", self.name);
+        }
+    }
+
+    impl Vehicle for BMW {
+        fn drive(&self) {
+            println!("{} is driving", self.name);
+        }
+    }
+
+    enum CarType {
+        benz,
+        bmw,
+    }
+
+    fn which_car(car_type: CarType) -> Box<dyn Vehicle> {
+        match car_type {
+            CarType::benz => Box::new(Benz {
+                name: "benz-1".to_string(),
+            }),
+            CarType::bmw => Box::new(BMW {
+                name: "bmw-1".to_string(),
+            }),
+            _ => {
+                panic!("invalid car type");
+            }
+        }
+    }
+
+    pub fn demo_trait() {
+        let benz = which_car(CarType::benz);
+        benz.drive();
+    }
     pub fn demo_generic() {
         let a = echo("hello");
         println!("a: {}", a);

@@ -11,5 +11,6 @@ fn main() {
     // word_counter::count_words_in_file();
     // guess::do_guess();
 
-    foo2::demo_generic();
+    // foo2::demo_generic();
+    foo2::demo_trait();
 }
