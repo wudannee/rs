@@ -139,11 +139,27 @@ pub mod foo2 {
         x
     }
 
+    struct Container<T> {
+        value: T,
+    }
+
+    impl<T> Container<T> {
+        fn new(value: T) -> Container<T> {
+            Container { value }
+        }
+    }
+
     pub fn demo_generic() {
         let a = echo("hello");
         println!("a: {}", a);
 
         let a = echo(1.23);
         println!("a: {}", a);
+
+        let a = Container::new(1);
+        println!("{}", a.value);
+
+        let a = Container::new(vec![1, 2, 3]);
+        println!("{:?}", a.value);
     }
 }
