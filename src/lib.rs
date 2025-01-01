@@ -145,7 +145,15 @@ pub mod foo2 {
 
     impl<T> Container<T> {
         fn new(value: T) -> Container<T> {
-            Container { value }
+            Self { value }
+        }
+    }
+
+    /// type-specific implementation
+    /// only applicable to Container<String>
+    impl Container<String> {
+        fn reverse(&mut self) {
+            self.value = self.value.chars().rev().collect();
         }
     }
 
@@ -161,5 +169,9 @@ pub mod foo2 {
 
         let a = Container::new(vec![1, 2, 3]);
         println!("{:?}", a.value);
+
+        let mut a = Container::new(String::from("edoc tsur"));
+        a.reverse();
+        println!("{}", a.value);
     }
 }
