@@ -169,6 +169,29 @@ pub mod foo2 {
         name: String,
     }
 
+    /// implements Default for Benz, setting a default name.
+    impl Default for Benz {
+        fn default() -> Self {
+            Self {
+                name: "benz-defaultname".to_string(),
+            }
+        }
+    }
+
+    /// implements From<&str> for Benz
+    ///
+    /// allows for the conversion from &str to Benz
+    impl From<&str> for Benz {
+        /// Constructs a `Benz` from a comma-separated string, using the second element as the name, defaulting to "default-from-benz".
+        fn from(value: &str) -> Self {
+            let default_name = "default-from-benz";
+            let val = value.to_string();
+            let names: Vec<&str> = val.split(",").collect();
+            let name = names.get(1).unwrap_or(&default_name).to_string();
+            Self { name }
+        }
+    }
+
     impl Vehicle for Benz {
         fn drive(&self) {
             println!("{} is driving", self.name);
@@ -188,9 +211,11 @@ pub mod foo2 {
 
     fn which_car(car_type: CarType) -> Box<dyn Vehicle> {
         match car_type {
-            CarType::benz => Box::new(Benz {
-                name: "benz-1".to_string(),
-            }),
+            // CarType::benz => Box::new(Benz {
+            //     name: "benz-1".to_string(),
+            // }),
+            // CarType::benz => Box::new(Benz::default()),
+            CarType::benz => Box::new(Benz::from("name1,benz-name2,name3")),
             CarType::bmw => Box::new(BMW {
                 name: "bmw-1".to_string(),
             }),
@@ -202,6 +227,13 @@ pub mod foo2 {
 
     pub fn demo_trait() {
         let benz = which_car(CarType::benz);
+        benz.drive();
+        
+        let benz = Benz::default();
+        benz.drive();
+
+        // Into trait is automatically implemented, since `Benz` implements the From<&str> trait
+        let benz: Benz = "into_benz1,into_benz2".into();
         benz.drive();
     }
     pub fn demo_generic() {
