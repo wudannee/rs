@@ -228,14 +228,55 @@ pub mod foo2 {
     pub fn demo_trait() {
         let benz = which_car(CarType::benz);
         benz.drive();
-        
+
         let benz = Benz::default();
         benz.drive();
 
         // Into trait is automatically implemented, since `Benz` implements the From<&str> trait
         let benz: Benz = "into_benz1,into_benz2".into();
         benz.drive();
+
+        associated_type_and_type_parameter();
     }
+
+    /// Demonstrates the use of associated types and type parameters.
+    ///
+    /// Creates an instance of `Ford`, and calls both `get_price` and `get_value` on it,
+    /// printing out the results.
+    ///
+    /// The `get_price` method is defined on the `Priced` trait, which `Ford` implements.
+    /// The `get_value` method is not explicitly defined, but it is implicitly defined
+    /// by the `Priced` trait's associated type, `Out`, which is set to `f64` for `Ford`.
+    fn associated_type_and_type_parameter() {
+        let ford = Ford { price: 1.23 };
+        println!("price: {}, value: {}", ford.get_price(), ford.get_value());
+    }
+    struct Ford {
+        price: f64,
+    }
+
+    impl Priced for Ford {
+        type Out = f64;
+
+        fn get_price(&self) -> Self::Out {
+            self.price
+        }
+    }
+
+    impl Valued<f64> for Ford {
+        fn get_value(&self) -> f64 {
+            self.price
+        }
+    }
+
+    trait Valued<T> {
+        fn get_value(&self) -> T;
+    }
+    trait Priced {
+        type Out;
+        fn get_price(&self) -> Self::Out;
+    }
+
     pub fn demo_generic() {
         let a = echo("hello");
         println!("a: {}", a);
