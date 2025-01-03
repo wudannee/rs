@@ -134,6 +134,8 @@ pub mod word_counter {
 }
 
 pub mod foo2 {
+    use std::fmt::Display;
+
     /// dummy generic function which returns its input
     fn echo<T>(x: T) -> T {
         x
@@ -237,6 +239,20 @@ pub mod foo2 {
         benz.drive();
 
         associated_type_and_type_parameter();
+
+        print_out(3);
+        print_out("xyz");
+        print_out(benz);
+    }
+
+    impl Display for Benz {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(f, "display=> benz: {}", self.name)
+        }
+    }
+
+    fn print_out<T: std::fmt::Display>(x: T) {
+        println!("{}", x);
     }
 
     /// Demonstrates the use of associated types and type parameters.
