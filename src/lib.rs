@@ -311,3 +311,68 @@ pub mod foo2 {
         println!("{}", a.value);
     }
 }
+
+pub mod foo3 {
+    trait Speak {
+        fn speak(&self);
+    }
+
+    struct Dog {
+        name: String,
+    }
+    struct Cat {
+        name: String,
+    }
+
+    impl Speak for Dog {
+        fn speak(&self) {
+            println!("{}: woof", self.name);
+        }
+    }
+
+    impl Speak for Cat {
+        fn speak(&self) {
+            println!("{}: meow", self.name);
+        }
+    }
+
+    /// a syntax sugar of generic constraint
+    /// takes any type that implements `Speak` and calls `speak` on it.
+    /// this is a static dispatch mechanism, where the type is determined at compile time
+    fn speak_impl(speakable: impl Speak) {
+        speakable.speak();
+    }
+
+    /// generic constraint
+    /// takes any type that implements `Speak` and calls `speak` on it.
+    /// this is a static dispatch mechanism, where the type is determined at compile time
+    fn speak_generic<T: Speak>(speakable: T) {
+        speakable.speak();
+    }
+
+    /// trait object
+    /// takes any type that implements `Speak` and calls `speak` on it.
+    /// this is a dynamic dispatch mechanism, where the type is determined at runtime
+    fn speak(speakable: &dyn Speak) {
+        speakable.speak();
+    }
+
+    pub fn demo_trait_dispatch() {
+        let d = Dog {
+            name: "d1".to_string(),
+        };
+        let c = Cat {
+            name: "c1".to_string(),
+        };
+        speak(&d);
+        speak(&c);
+
+        speak_impl(d);
+        speak_impl(c);
+
+        let d2 = Dog {
+            name: "d2".to_string(),
+        };
+        speak_generic(d2);
+    }
+}
