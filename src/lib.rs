@@ -1,3 +1,4 @@
+pub mod animal;
 pub mod guess;
 
 /// doc test for substract

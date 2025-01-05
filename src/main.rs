@@ -1,3 +1,4 @@
+use y::animal;
 use y::foo1;
 use y::foo2;
 use y::foo3;
@@ -13,6 +14,8 @@ fn main() {
     // guess::do_guess();
 
     // foo2::demo_generic();
-    foo2::demo_trait();
-    foo3::demo_trait_dispatch();
+    // foo2::demo_trait();
+    // foo3::demo_trait_dispatch();
+
+    animal::demo_animal();
 }
