@@ -97,7 +97,7 @@ fn describe_animal_from_any(animal: &dyn std::any::Any) {
     }
 }
 
-pub fn demo_animal() {
+fn demo_batch_object() {
     let dog = Dog {
         name: String::from("Dog1"),
     };
@@ -121,4 +121,26 @@ pub fn demo_animal() {
     describe_animal(&dog, FlowType::IfLet);
     describe_animal(&cat, FlowType::Match);
     describe_animal(&bird, FlowType::Match);
+}
+
+fn demo_animal_box_trait_object_collection() {
+    let animals: Vec<Box<dyn Animal>> = vec![
+        Box::new(Dog {
+            name: String::from("Snoopy"),
+        }),
+        Box::new(Cat {
+            name: String::from("Tom"),
+        }),
+    ];
+
+    for animal in animals {
+        describe_animal(animal.as_ref(), FlowType::IfLet);
+        describe_animal_from_any(animal.as_any());
+    }
+}
+
+pub fn demo_animal() {
+    demo_batch_object();
+    println!("{}", String::from("-").repeat(20));
+    demo_animal_box_trait_object_collection();
 }
