@@ -2,6 +2,7 @@ use y::animal;
 use y::foo1;
 use y::foo2;
 use y::foo3;
+use y::foo4;
 use y::guess;
 use y::word_counter;
 
@@ -17,5 +18,7 @@ fn main() {
     // foo2::demo_trait();
     // foo3::demo_trait_dispatch();
 
-    animal::demo_animal();
+    // animal::demo_animal();
+
+    foo4::demo_ref();
 }

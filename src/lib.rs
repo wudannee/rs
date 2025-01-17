@@ -377,3 +377,50 @@ pub mod foo3 {
         speak_generic(d2);
     }
 }
+
+pub mod foo4 {
+    #[derive(Debug)]
+    enum Food {
+        Cake,
+        Pizza(String),
+        Salad,
+    }
+
+    #[derive(Debug)]
+    struct Bag {
+        food: Food,
+    }
+
+    /// Demonstrates the use of mutable references in match statements.
+    ///
+    /// Creates a `Bag` with a `Pizza` food item, and then uses a match statement to
+    /// modify the pizza item in place. The `ref mut a` syntax is used to create a mutable
+    /// reference to the `Food` enum variant, and the `match a` syntax is used to
+    /// further pattern match on the enum variant.
+    ///
+    /// This example shows how to use mutable references to modify values in place
+    /// while still using the expressive power of pattern matching.
+    pub fn demo_ref() {
+        let mut bag = Bag {
+            food: Food::Pizza(String::from("Pizza")),
+        };
+
+        println!("initial bag: {:?}", bag);
+
+        match bag.food {
+            Food::Cake => {
+                println!("I got a cake");
+            }
+            ref mut a => match a {
+                Food::Pizza(ref mut v) => {
+                    v.push_str(" with cheese");
+                }
+                _ => {
+                    println!("ignored food");
+                }
+            },
+        }
+
+        println!("{:?}", bag);
+    }
+}
